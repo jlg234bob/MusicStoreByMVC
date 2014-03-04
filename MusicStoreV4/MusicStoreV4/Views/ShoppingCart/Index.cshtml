@@ -1,0 +1,55 @@
+﻿@model List<MusicStoreV4.Models.CartItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@Html.ActionLink("Check out", "CheckOut", "ShoppingCart", null, new { @class="button"})</h2>
+<table id="cart-table">
+    <tr>
+        <th>Alubm Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Operation</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr id="cart-item-@item.CartItemId">
+            <td><a href="/ShoppingCart/AddItem/@item.AlbumId">@item.Album.Title</a></td>
+            <td>@item.Album.Price</td>
+            <td id="album-count-@item.CartItemId">@item.AlbumCount</td>
+            <td><a data-id="@item.CartItemId">Remove item</a></td>
+        </tr>
+    }
+    <tr>
+        <td class="lable">Total</td>
+        <td id="total-money">@Model.Sum(item => item.Album.Price * item.AlbumCount)</td>
+        <td id="total-album">@Model.Sum(item => item.AlbumCount)</td>
+        <td></td>
+    </tr>
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("td>a").click(function () {
+                $.post("ShoppingCart/RemoveItem/" + $(this).attr("data-id"), $removeItemCallBack);
+            });
+
+            $removeItemCallBack = function (data) {
+                if (data.AlbumCount == 0) {
+                    $("#cart-item-" + data.CartItemId).fadeOut("slow");
+                }
+                else {
+                    $("#album-count-" + data.CartItemId).text(data.AlbumCount);
+                }
+
+                $("#total-money").text(data.TotalMoney);
+                $("#total-album").text(data.TotalAlbum);
+                $("#cart-summary").text("Cart(" + data.TotalAlbum + ")");
+            };
+
+            $("#cart-summary").text("Cart(" + @Model.Sum(item => item.AlbumCount) + ")");
+        });
+    </script>
+}

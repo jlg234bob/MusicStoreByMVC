@@ -1,0 +1,19 @@
+﻿@model IQueryable<MusicStoreV4.Models.Genre>
+
+@{
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+    if (!controllerName.Equals("Home", StringComparison.InvariantCultureIgnoreCase) &&
+        !controllerName.Equals("Store", StringComparison.InvariantCultureIgnoreCase) &&
+        !controllerName.Equals("StoreAdmin", StringComparison.InvariantCultureIgnoreCase))
+    {
+        controllerName = "Store";
+    }
+}
+
+<ul id="genre-menu">
+    @foreach (var genre in Model)
+    {
+        <li>@Html.ActionLink(genre.Name, "GenreAlbums", controllerName, new { id = genre.GenreId }, null)</li>
+    }
+</ul>

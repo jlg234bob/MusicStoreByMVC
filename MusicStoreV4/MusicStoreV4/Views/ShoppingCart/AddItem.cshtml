@@ -1,0 +1,30 @@
+﻿@model MusicStoreV4.Models.Album
+
+@{
+    ViewBag.Title = "AddItem";
+}
+
+<fieldset>
+    <legend>Add Item to cart</legend>
+    <p>
+        @Html.Label("Title: ")
+        @Html.DisplayTextFor(item => item.Title)
+    </p>
+    <p>
+        @Html.Label("Artist: ")
+        @Html.DisplayTextFor(item => item.Artist.Name)
+    </p>
+    <p>
+        @Html.Label("Genre: ")
+        @Html.DisplayTextFor(item => item.Genre.Name)
+    </p>
+    <p>
+        @Html.Label("Price: ")
+        @Html.DisplayTextFor(item => item.Price)
+    </p>
+
+    @using (Html.BeginForm("AddItem", "ShoppingCart", new { Id = Model.AlbumId }))
+    {
+        <button type="submit">Add to cart</button>
+    }
+</fieldset>

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MusicStoreV4.Models.Album>
+
+@if (ViewBag.GenreName != null)
+{
+    ViewBag.Title = "Album list of genre: " + ViewBag.GenreName;
+}
+else
+{
+    ViewBag.Title = "Album list";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<ul class="album-list">
+    @foreach (var album in Model)
+    {
+        <li><a href="@Url.Action("AddItem", "ShoppingCart", new { id = album.AlbumId })">
+            <img src="@album.AlbumArtUrl" /><br />
+            <span>@album.Title</span>
+        </a></li>
+    }
+</ul>

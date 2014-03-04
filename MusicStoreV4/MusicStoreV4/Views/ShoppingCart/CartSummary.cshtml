@@ -1,0 +1,3 @@
+﻿@model List<MusicStoreV4.Models.CartItem>
+
+@Html.ActionLink("Cart(" + @Model.Sum(item => item.AlbumCount) + ")", "Index", "ShoppingCart", null, new { Id = "cart-summary" })
